@@ -1,0 +1,37 @@
+<html>
+    <head></head>
+    <body>
+        <script src="https://secure.aadcdn.microsoftonline-p.com/lib/0.2.2/js/msal.min.js"></script>
+        <script type="text/javascript">
+            (function(){
+                var settings = {
+                    clientId: "b205141d-8dac-4db7-8ea4-49e626fbdb41",
+                    authority: "https://login.microsoftonline.com/tfp/bafaflag.onmicrosoft.com/b2c_1_signup-signin"
+                };
+                
+                var clientApplication = new Msal.UserAgentApplication(settings.clientId, settings.authority, function (errorDesc, token, error, tokenType) {
+                    console.log(errorDesc);
+                    console.log(token);
+                    console.log(error);
+                    console.log(tokenType);
+                });
+            
+                var currentUser = clientApplication.getUser();
+                
+                if(!currentUser){
+                    clientApplication.loginRedirect().then(
+                        function(idToken){
+                            console.log("got idToken: " + idToken)
+                        },
+                        function(err){
+                            console.dir(err)
+                        });
+                }
+                else{
+                    console.dir(currentUser);
+                }
+            })();
+        
+        </script>
+    </body>
+</html>
